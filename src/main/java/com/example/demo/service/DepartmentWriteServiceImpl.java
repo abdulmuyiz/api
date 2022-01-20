@@ -27,7 +27,7 @@ public class DepartmentWriteServiceImpl implements DepartmentWriteService {
 
     @Override
     public void updateDepartment(Department department) {
-        
+
     }
 
     @Override
