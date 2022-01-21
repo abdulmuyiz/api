@@ -25,8 +25,19 @@ public class EducationDetailsController {
         return educationDetailsReadService.getAllEducationDetails();
     }
 
+    @GetMapping(path = "/{id}")
+    public EducationDetails getEducationDetail(@PathVariable("id") int id){
+        return educationDetailsReadService.getEducationDetails(id);
+    }
+
     @PostMapping
     public void postEducationDetails(@RequestBody EducationDetails educationDetails){
         educationDetailsWriteService.saveEducationDetails(educationDetails);
     }
+
+    @PutMapping(path = "/{id}")
+    public void putEducationDetails(@RequestBody EducationDetails educationDetails, @PathVariable("id") int id){
+        educationDetailsWriteService.updateEducationDetails(educationDetails,id);
+    }
+
 }

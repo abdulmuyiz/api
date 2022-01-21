@@ -1,11 +1,14 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.ResourseNotFoundException;
 import com.example.demo.model.Employee;
 import com.example.demo.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class EmployeeReadServiceImpl implements EmployeeReadService {
     private final EmployeeRepository employeeRepository;
 
@@ -21,6 +24,17 @@ public class EmployeeReadServiceImpl implements EmployeeReadService {
 
     @Override
     public Employee getEmployee(long id) {
-        return null;
+        return employeeRepository.findById(id).orElseThrow(()-> new ResourseNotFoundException("Employee","Id",id));
     }
+
+    @Override
+    public List<Employee> getEmpByDepId(long id) {
+        return employeeRepository.findEmployeeByDepID(id);
+    }
+
+    @Override
+    public Integer numberOfEmpInDep(long id) {
+        return employeeRepository.numberOfEmployeesInDep(id);
+    }
+
 }

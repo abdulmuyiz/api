@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface SalaryReadService {
     List<Salary> getAllSalaries();
-    Salary getSalary();
+    Salary getSalary(int id);
 }

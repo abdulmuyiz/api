@@ -25,8 +25,18 @@ public class QualificationTypesController {
         return qualificationTypesReadService.getAllQualificationTypes();
     }
 
+    @GetMapping(path = "/{id}")
+    public QualificationTypes getQualificationType(@PathVariable("id") int id) {
+        return qualificationTypesReadService.getQualificationType(id);
+    }
+
     @PostMapping
     public void postQualificationTypes(QualificationTypes qualificationTypes){
         qualificationTypesWriteService.saveQualificationType(qualificationTypes);
+    }
+
+    @PutMapping(path = "/{id}")
+    public void putQualificationType(QualificationTypes qualificationTypes, int id){
+        qualificationTypesWriteService.updateQualificationTpe(qualificationTypes,id);
     }
 }

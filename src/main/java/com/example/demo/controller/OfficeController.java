@@ -23,6 +23,11 @@ public class OfficeController {
         return officeReadService.getAllOffices();
     }
 
+    @GetMapping(path = "/{id}")
+    public Office getOffice(@PathVariable("id") int id){
+        return officeReadService.getOffice(id);
+    }
+
     @PostMapping
     public void postOffice(@RequestBody Office office){
         officeWriteService.saveOffice(office);

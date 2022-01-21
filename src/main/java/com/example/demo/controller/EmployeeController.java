@@ -25,9 +25,29 @@ public class EmployeeController {
         return employeeReadService.getAllEmployees();
     }
 
+    @GetMapping(path = "/{id}")
+    public Employee getEmployee(@PathVariable("id") long id){
+        return employeeReadService.getEmployee(id);
+    }
+
+    @GetMapping(path = "/department/{id}")
+    public List<Employee> getEmployeeByDep(@PathVariable("id") long id){
+        return employeeReadService.getEmpByDepId(id);
+    }
+
+    @GetMapping(path = "/department/count/{id}")
+    public Integer getNumberOfEmployeeInDep(@PathVariable("id") long id){
+        return employeeReadService.numberOfEmpInDep(id);
+    }
+
     @PostMapping
     public void postEmployee(@RequestBody Employee employee){
         employeeWriteService.saveEmployee(employee);
+    }
+
+    @PutMapping(path = "/{id}")
+    public void putEmployee(@RequestBody Employee employee, @PathVariable("id") long id){
+        employeeWriteService.updateEmployee(employee,id);
     }
 
     @DeleteMapping(path = "/{id}")

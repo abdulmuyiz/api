@@ -3,15 +3,17 @@ package com.example.demo.model;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-enum SourceType{
-    CGPA, Percentage;
-}
+
 
 @Entity
 @Table(name = "education_details")
 public class EducationDetails {
+    public enum SourceType{
+        CGPA, Percentage
+    }
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @OneToOne
     @JoinColumn(name = "employee_id")

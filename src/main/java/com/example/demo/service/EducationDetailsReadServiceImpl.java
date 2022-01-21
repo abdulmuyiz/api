@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.ResourseNotFoundException;
 import com.example.demo.model.EducationDetails;
 import com.example.demo.repository.EducationDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,6 @@ public class EducationDetailsReadServiceImpl implements EducationDetailsReadServ
 
     @Override
     public EducationDetails getEducationDetails(int id) {
-        return null;
+        return educationDetailsRepository.findById(id).orElseThrow(() -> new ResourseNotFoundException("Education Details","id",id));
     }
 }

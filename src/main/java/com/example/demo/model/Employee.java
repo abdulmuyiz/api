@@ -10,11 +10,12 @@ import java.sql.Timestamp;
 public class Employee {
 
     public enum EmpStatus{
-        Active, Inactive;
+        Active, Inactive
     }
 
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(name = "name")
     private String name;

@@ -4,13 +4,14 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-enum SalaryStatus{
-    Active, Inactive;
-}
+
 
 @Entity
 @Table(name = "salaries")
 public class Salary {
+    public enum SalaryStatus{
+        Active, Inactive
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

@@ -1,9 +1,6 @@
 package com.example.demo.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
@@ -11,6 +8,7 @@ import java.sql.Timestamp;
 public class QualificationTypes {
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "type")
     private String type;
@@ -59,16 +57,5 @@ public class QualificationTypes {
 
     public void setUpdated(Timestamp updated) {
         this.updated = updated;
-    }
-
-    @Override
-    public String toString() {
-        return "QualificationTypes{" +
-                "id=" + id +
-                ", type='" + type + '\'' +
-                ", name='" + name + '\'' +
-                ", created=" + created +
-                ", updated=" + updated +
-                '}';
     }
 }

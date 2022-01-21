@@ -4,11 +4,13 @@ import com.example.demo.exception.ResourseNotFoundException;
 import com.example.demo.model.QualificationTypes;
 import com.example.demo.repository.QualificationTypesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Optional;
 
+@Service
 public class QualificationTypesWriteServiceImpl implements QualificationTypesWriteService {
     Date date = new Date();
     private final QualificationTypesRepository qualificationTypesRepository;

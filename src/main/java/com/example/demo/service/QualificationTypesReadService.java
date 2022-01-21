@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface QualificationTypesReadService {
     List<QualificationTypes> getAllQualificationTypes();
-    QualificationTypes getQualificationType();
+    QualificationTypes getQualificationType(int id);
 }

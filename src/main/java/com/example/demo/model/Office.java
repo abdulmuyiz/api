@@ -1,9 +1,6 @@
 package com.example.demo.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 
 @Entity
@@ -11,6 +8,7 @@ import java.sql.Timestamp;
 public class Office {
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "name")
     private String name;
@@ -21,11 +19,11 @@ public class Office {
     @Column(name = "updated_at")
     private Timestamp updated;
 
-    public int getOid() {
+    public int getId() {
         return id;
     }
 
-    public void setOid(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 

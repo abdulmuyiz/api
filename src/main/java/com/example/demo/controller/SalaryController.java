@@ -25,9 +25,19 @@ public class SalaryController {
         return salaryReadService.getAllSalaries();
     }
 
+    @GetMapping(path = "/{id}")
+    public Salary getSalary(@PathVariable("id") int id){
+        return salaryReadService.getSalary(id);
+    }
+
     @PostMapping
-    public void postSalary(Salary salary){
+    public void postSalary(@RequestBody Salary salary){
         salaryWriteService.saveSalary(salary);
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public void delelteSalary(@PathVariable("id") int id){
+        salaryWriteService.deleteSalary(id);
     }
 
 }
