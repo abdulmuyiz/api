@@ -34,9 +34,9 @@ public class EmployeeWriteServiceImpl implements EmployeeWriteService {
         Optional<Employee> emp = employeeRepository.findById(id);
         if(emp.isPresent()){
             Employee employee1 = emp.get();
+            employee.setUpdated(timestamp);
             employee.setCreated(employee1.getCreated());
             employee.setId(id);
-            employee.setUpdated(timestamp);
             employee1 = employee;
             employeeRepository.save(employee1);
         }else{

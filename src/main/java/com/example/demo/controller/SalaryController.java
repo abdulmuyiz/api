@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/salary")
+@RequestMapping(path = "api/v1/salary")
 public class SalaryController {
     private final SalaryReadService salaryReadService;
     private final SalaryWriteService salaryWriteService;
@@ -36,7 +36,7 @@ public class SalaryController {
     }
 
     @DeleteMapping(path = "/{id}")
-    public void delelteSalary(@PathVariable("id") int id){
+    public void deleteSalary(@PathVariable("id") int id){
         salaryWriteService.deleteSalary(id);
     }
 

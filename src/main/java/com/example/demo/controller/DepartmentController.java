@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/department")
+@RequestMapping(path = "api/v1/department")
 public class DepartmentController {
     private final DepartmentReadService departmentReadService;
     private final DepartmentWriteService departmentWriteService;

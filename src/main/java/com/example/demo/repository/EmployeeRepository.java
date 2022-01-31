@@ -10,11 +10,10 @@ import java.util.List;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee,Long> {
 
-    //e.status = com.example.demo.model.Employee.EmpStatus.Active and
-    @Query("Select e FROM Employee e Where e.department = ?1")
-    List<Employee> findEmployeeByDepID(long id);
 
-    // e.status = com.example.demo.model.Employee.EmpStatus.Active and
-    @Query("Select count(e) FROM Employee e where e.department = ?1")
+    @Query("Select e FROM Employee e Where e.status = 'Active' and e.department.id = ?1")
+    List<Employee> findEmployeeByDepID(long id);
+    
+    @Query("Select count(e) FROM Employee e where e.status = 'Active' and e.department.id = ?1")
     int numberOfEmployeesInDep(long id);
 }

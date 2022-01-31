@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/qualificationTypes")
+@RequestMapping(path = "api/v1/qualificationTypes")
 public class QualificationTypesController {
     private final QualificationTypesReadService qualificationTypesReadService;
     private final QualificationTypesWriteService qualificationTypesWriteService;
@@ -31,12 +31,12 @@ public class QualificationTypesController {
     }
 
     @PostMapping
-    public void postQualificationTypes(QualificationTypes qualificationTypes){
+    public void postQualificationTypes(@RequestBody QualificationTypes qualificationTypes){
         qualificationTypesWriteService.saveQualificationType(qualificationTypes);
     }
 
     @PutMapping(path = "/{id}")
-    public void putQualificationType(QualificationTypes qualificationTypes, int id){
+    public void putQualificationType(@RequestBody QualificationTypes qualificationTypes,@PathVariable("id") int id){
         qualificationTypesWriteService.updateQualificationTpe(qualificationTypes,id);
     }
 }

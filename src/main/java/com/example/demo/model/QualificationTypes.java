@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -13,6 +15,7 @@ public class QualificationTypes {
     @Column(name = "type")
     private String type;
     @Column(name = "display_name")
+    @JsonProperty("display_name")
     private String name;
     @Column(name= "created_at")
     private Timestamp created;

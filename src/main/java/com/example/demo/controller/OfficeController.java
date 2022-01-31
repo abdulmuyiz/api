@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/office")
+@RequestMapping(path = "api/v1/office")
 public class OfficeController {
     private final OfficeReadService officeReadService;
     private final OfficeWriteService officeWriteService;

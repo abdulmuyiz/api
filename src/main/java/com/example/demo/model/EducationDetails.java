@@ -1,5 +1,9 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -7,6 +11,8 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "education_details")
+@AllArgsConstructor
+@NoArgsConstructor
 public class EducationDetails {
     public enum SourceType{
         CGPA, Percentage
@@ -15,13 +21,17 @@ public class EducationDetails {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "employee_id")
+    @JsonProperty("employee_id")
     private Employee employee;
     @OneToOne
     @JoinColumn(name = "qualification_type_id")
+    @JsonProperty("qualification_type_id")
     private QualificationTypes qualificationTypes;
     @Column(name = "score_type")
+    @JsonProperty("score_type")
+    @Enumerated(EnumType.STRING)
     private SourceType sourceType;
     @Column(name = "score")
     private double score;

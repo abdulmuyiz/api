@@ -2,10 +2,22 @@ package com.example.demo.model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "offices")
 public class Office {
+    public Office() {
+    }
+
+    public Office(String name, String address, Timestamp created, Timestamp updated) {
+        this.name = name;
+        this.address = address;
+        this.created = created;
+        this.updated = updated;
+    }
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

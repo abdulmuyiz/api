@@ -12,7 +12,6 @@ import java.util.Optional;
 
 @Service
 public class EducationDetailsWriteServiceImpl implements EducationDetailsWriteService {
-    Date date = new Date();
     private final EducationDetailsRepository educationDetailsRepository;
 
     @Autowired
@@ -22,7 +21,7 @@ public class EducationDetailsWriteServiceImpl implements EducationDetailsWriteSe
 
     @Override
     public void saveEducationDetails(EducationDetails educationDetails) {
-        Timestamp timestamp = new Timestamp(date.getTime());
+        Timestamp timestamp = new Timestamp(new Date().getTime());
         educationDetails.setCreated(timestamp);
         educationDetails.setUpdated(timestamp);
         educationDetailsRepository.save(educationDetails);
@@ -30,9 +29,9 @@ public class EducationDetailsWriteServiceImpl implements EducationDetailsWriteSe
 
     @Override
     public void updateEducationDetails(EducationDetails educationDetails, int id) {
-        Timestamp timestamp = new Timestamp(date.getTime());
         Optional<EducationDetails> e = educationDetailsRepository.findById(id);
         if(e.isPresent()){
+            Timestamp timestamp = new Timestamp(new Date().getTime());
             EducationDetails educationDetails1 = e.get();
             educationDetails.setUpdated(timestamp);
             educationDetails.setId(id);

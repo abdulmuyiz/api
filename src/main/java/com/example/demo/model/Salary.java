@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -16,14 +18,16 @@ public class Salary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    @Column(name="account")
-    private double account;
+    @Column(name="amount")
+    private double amount;
     @Column(name= "begin_date")
     private Date begin_date;
-    @Column(name="status")
-    private SalaryStatus status;
-    @OneToOne
+    @Column(name="status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private SalaryStatus status = SalaryStatus.Active;
+    @ManyToOne
     @JoinColumn(name="employee_id")
+    @JsonProperty("employee_id")
     private Employee employee;
     @Column(name= "created_at")
     private Timestamp created;
@@ -38,12 +42,12 @@ public class Salary {
         this.id = id;
     }
 
-    public double getAccount() {
-        return account;
+    public double getAmount() {
+        return amount;
     }
 
-    public void setAccount(double account) {
-        this.account = account;
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 
     public Date getBegin_date() {

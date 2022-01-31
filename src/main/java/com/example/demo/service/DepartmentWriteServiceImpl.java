@@ -21,6 +21,7 @@ public class DepartmentWriteServiceImpl implements DepartmentWriteService {
     }
 
     public void saveDepartment(Department department) {
+        department.setStatus(Department.DepStatus.Active);
         Timestamp timestamp = new Timestamp(date.getTime());
         department.setCreated(timestamp);
         department.setUpdated(timestamp);

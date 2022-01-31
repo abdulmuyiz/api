@@ -1,5 +1,9 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -7,6 +11,8 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "employees")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Employee {
 
     public enum EmpStatus{
@@ -25,13 +31,16 @@ public class Employee {
     private String address;
     @Column(name = "contact_number")
     private String contact_number;
-    @Column(name = "status")
-    private EmpStatus status;
+    @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private EmpStatus status = EmpStatus.Active;
     @ManyToOne
     @JoinColumn(name = "department_id")
+    @JsonProperty("department_id")
     private Department department;
     @ManyToOne
     @JoinColumn(name= "office_id")
+    @JsonProperty("office_id")
     private Office office;
     @Column(name= "created_at")
     private Timestamp created;
