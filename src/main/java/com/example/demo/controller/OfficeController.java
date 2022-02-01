@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/v1/office")
+@RequestMapping(path = "api/v1/offices")
 public class OfficeController {
     private final OfficeReadService officeReadService;
     private final OfficeWriteService officeWriteService;
@@ -29,8 +29,9 @@ public class OfficeController {
     }
 
     @PostMapping
-    public void postOffice(@RequestBody Office office){
+    public Office postOffice(@RequestBody Office office){
         officeWriteService.saveOffice(office);
+        return office;
     }
 
 }

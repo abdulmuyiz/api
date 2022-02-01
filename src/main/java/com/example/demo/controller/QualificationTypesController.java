@@ -31,12 +31,14 @@ public class QualificationTypesController {
     }
 
     @PostMapping
-    public void postQualificationTypes(@RequestBody QualificationTypes qualificationTypes){
+    public QualificationTypes postQualificationTypes(@RequestBody QualificationTypes qualificationTypes){
         qualificationTypesWriteService.saveQualificationType(qualificationTypes);
+        return qualificationTypes;
     }
 
     @PutMapping(path = "/{id}")
-    public void putQualificationType(@RequestBody QualificationTypes qualificationTypes,@PathVariable("id") int id){
+    public QualificationTypes putQualificationType(@RequestBody QualificationTypes qualificationTypes,@PathVariable("id") int id){
         qualificationTypesWriteService.updateQualificationTpe(qualificationTypes,id);
+        return qualificationTypes;
     }
 }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/v1/department")
+@RequestMapping(path = "api/v1/departments")
 public class DepartmentController {
     private final DepartmentReadService departmentReadService;
     private final DepartmentWriteService departmentWriteService;
@@ -31,18 +31,21 @@ public class DepartmentController {
     }
 
     @PostMapping
-    public void postDepartment(@RequestBody Department department){
+    public Department postDepartment(@RequestBody Department department){
         departmentWriteService.saveDepartment(department);
+        return department;
     }
 
     @PutMapping(path = "/{id}")
-    public void putDepartment(@RequestBody Department department, @PathVariable("id") long id){
+    public Department putDepartment(@RequestBody Department department, @PathVariable("id") long id){
         departmentWriteService.updateDepartment(department,id);
+        return department;
     }
 
     @DeleteMapping(path = "/{id}")
-    public void deleteDepartment(@PathVariable("id") long id){
+    public Department deleteDepartment(@PathVariable("id") long id){
         departmentWriteService.deleteDepartment(id);
+        return departmentReadService.getDepartment(id);
     }
 
 }

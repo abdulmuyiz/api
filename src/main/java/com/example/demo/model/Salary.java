@@ -1,6 +1,8 @@
 package com.example.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -10,6 +12,8 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "salaries")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Salary {
     public enum SalaryStatus{
         Active, Inactive

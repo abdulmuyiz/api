@@ -2,6 +2,8 @@ package com.example.demo.controller;
 
 import com.example.demo.model.EducationDetails;
 import com.example.demo.service.EducationDetailsReadService;
+import com.example.demo.service.EducationDetailsValidationService;
+import com.example.demo.service.EducationDetailsValidationServiceImpl;
 import com.example.demo.service.EducationDetailsWriteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,7 @@ import java.util.List;
 public class EducationDetailsController {
     private final EducationDetailsReadService educationDetailsReadService;
     private final EducationDetailsWriteService educationDetailsWriteService;
+    private final EducationDetailsValidationService educationDetailsValidationService = new EducationDetailsValidationServiceImpl();
 
     @Autowired
     public EducationDetailsController(EducationDetailsReadService educationDetailsReadService, EducationDetailsWriteService educationDetailsWriteService) {
@@ -31,13 +34,17 @@ public class EducationDetailsController {
     }
 
     @PostMapping
-    public void postEducationDetails(@RequestBody EducationDetails educationDetails){
-        educationDetailsWriteService.saveEducationDetails(educationDetails);
+    public EducationDetails postEducationDetails(@RequestBody EducationDetails educationDetails){
+        if(educationDetailsValidationService.validateEducationDetails(educationDetails))
+            educationDetailsWriteService.saveEducationDetails(educationDetails);
+        return educationDetails;
     }
 
     @PutMapping(path = "/{id}")
-    public void putEducationDetails(@RequestBody EducationDetails educationDetails, @PathVariable("id") int id){
-        educationDetailsWriteService.updateEducationDetails(educationDetails,id);
+    public EducationDetails putEducationDetails(@RequestBody EducationDetails educationDetails, @PathVariable("id") int id){
+        if(educationDetailsValidationService.validateEducationDetails(educationDetails))
+            educationDetailsWriteService.updateEducationDetails(educationDetails,id);
+        return educationDetails;
     }
 
 }

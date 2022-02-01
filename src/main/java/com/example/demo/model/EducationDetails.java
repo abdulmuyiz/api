@@ -29,7 +29,7 @@ public class EducationDetails {
     @JoinColumn(name = "qualification_type_id")
     @JsonProperty("qualification_type_id")
     private QualificationTypes qualificationTypes;
-    @Column(name = "score_type")
+    @Column(name = "score_type", nullable = false)
     @JsonProperty("score_type")
     @Enumerated(EnumType.STRING)
     private SourceType sourceType;

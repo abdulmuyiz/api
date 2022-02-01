@@ -1,12 +1,30 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.ValidationException;
 import com.example.demo.model.EducationDetails;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class EducationDetailsValidationServiceImpl implements EducationDetailsValidationService {
+    List<String> errors = new ArrayList<>();
     @Override
-    public void validateEducationDetails(EducationDetails educationDetails) {
+    public boolean validateEducationDetails(EducationDetails educationDetails) {
+        try{
+            if((educationDetails.getSourceType() == EducationDetails.SourceType.CGPA &&
+                    (educationDetails.getScore()>10 || educationDetails.getScore()<0)) ||
+                    (educationDetails.getSourceType() == EducationDetails.SourceType.Percentage &&
+                    (educationDetails.getScore()>10 || educationDetails.getScore()<0))){
+                errors.add("source");
+                throw new ValidationException(errors, "INVALID Score for type");
+            }
+            return true;
+        }catch (ValidationException e){
+            System.out.println(e.getMessage());
+            return false;
+        }
 
     }
 }
