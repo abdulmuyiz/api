@@ -1,13 +1,14 @@
 package com.example.demo.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "offices")
-public class Office {
+public class Office implements Serializable {
     public Office() {
     }
 

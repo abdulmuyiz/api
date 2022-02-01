@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
 
@@ -14,7 +15,7 @@ import java.sql.Timestamp;
 @Table(name = "salaries")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Salary {
+public class Salary implements Serializable {
     public enum SalaryStatus{
         Active, Inactive
     }

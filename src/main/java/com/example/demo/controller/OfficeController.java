@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import com.example.demo.model.Office;
 import com.example.demo.service.OfficeReadService;
 import com.example.demo.service.OfficeWriteService;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,19 +21,20 @@ public class OfficeController {
     }
 
     @GetMapping
+    @Cacheable("offices")
     public List<Office> getOffice(){
         return officeReadService.getAllOffices();
     }
 
     @GetMapping(path = "/{id}")
+    @Cacheable(value = "offices",key = "#id")
     public Office getOffice(@PathVariable("id") int id){
         return officeReadService.getOffice(id);
     }
 
     @PostMapping
     public Office postOffice(@RequestBody Office office){
-        officeWriteService.saveOffice(office);
-        return office;
+        return officeWriteService.saveOffice(office);
     }
 
 }

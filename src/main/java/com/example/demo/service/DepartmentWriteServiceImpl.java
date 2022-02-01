@@ -20,16 +20,17 @@ public class DepartmentWriteServiceImpl implements DepartmentWriteService {
         this.departmentRepository = departmentRepository;
     }
 
-    public void saveDepartment(Department department) {
+    public Department saveDepartment(Department department) {
         department.setStatus(Department.DepStatus.Active);
         Timestamp timestamp = new Timestamp(date.getTime());
         department.setCreated(timestamp);
         department.setUpdated(timestamp);
         departmentRepository.save(department);
+        return department;
     }
 
     @Override
-    public void updateDepartment(Department department, long id) {
+    public Department updateDepartment(Department department, long id) {
         Timestamp timestamp = new Timestamp(date.getTime());
         Optional<Department> d = departmentRepository.findById(id);
         if(d.isPresent()){
@@ -42,10 +43,11 @@ public class DepartmentWriteServiceImpl implements DepartmentWriteService {
         }else{
             throw new ResourseNotFoundException("Department","id",id);
         }
+        return department;
     }
 
     @Override
-    public void deleteDepartment(long id) {
+    public Department deleteDepartment(long id) {
         Timestamp timestamp = new Timestamp(date.getTime());
         Optional<Department> d = departmentRepository.findById(id);
         if(d.isPresent()){
@@ -56,5 +58,6 @@ public class DepartmentWriteServiceImpl implements DepartmentWriteService {
         }else{
             throw new ResourseNotFoundException("Department","id",id);
         }
+        return null;
     }
 }

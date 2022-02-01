@@ -21,15 +21,16 @@ public class EmployeeWriteServiceImpl implements EmployeeWriteService {
     }
 
     @Override
-    public void saveEmployee(Employee employee) {
+    public Employee saveEmployee(Employee employee) {
         Timestamp timestamp = new Timestamp(date.getTime());
         employee.setCreated(timestamp);
         employee.setUpdated(timestamp);
         employeeRepository.save(employee);
+        return employee;
     }
 
     @Override
-    public void updateEmployee(Employee employee, long id) {
+    public Employee updateEmployee(Employee employee, long id) {
         Timestamp timestamp = new Timestamp(date.getTime());
         Optional<Employee> emp = employeeRepository.findById(id);
         if(emp.isPresent()){
@@ -42,10 +43,11 @@ public class EmployeeWriteServiceImpl implements EmployeeWriteService {
         }else{
             throw new ResourseNotFoundException("Employee","Id",id);
         }
+        return employee;
     }
 
     @Override
-    public void deleteEmployee(long id) {
+    public Employee deleteEmployee(long id) {
         Timestamp timestamp = new Timestamp(date.getTime());
         Optional<Employee> emp = employeeRepository.findById(id);
         if(emp.isPresent()){
@@ -56,5 +58,6 @@ public class EmployeeWriteServiceImpl implements EmployeeWriteService {
         }else{
             throw new ResourseNotFoundException("Employee","Id",id);
         }
+        return null;
     }
 }

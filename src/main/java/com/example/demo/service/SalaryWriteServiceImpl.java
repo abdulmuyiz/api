@@ -21,15 +21,16 @@ public class SalaryWriteServiceImpl implements SalaryWriteService {
     }
 
     @Override
-    public void saveSalary(Salary salary) {
+    public Salary saveSalary(Salary salary) {
         Timestamp timestamp = new Timestamp(date.getTime());
         salary.setCreated(timestamp);
         salary.setUpdated(timestamp);
         salaryRepository.save(salary);
+        return salary;
     }
 
     @Override
-    public void deleteSalary(int id) {
+    public Salary deleteSalary(int id) {
         Timestamp timestamp = new Timestamp(date.getTime());
         Optional<Salary> s = salaryRepository.findById(id);
         if(s.isPresent()){
@@ -40,5 +41,6 @@ public class SalaryWriteServiceImpl implements SalaryWriteService {
         }else{
             throw new ResourseNotFoundException("Salary","id",id);
         }
+        return null;
     }
 }

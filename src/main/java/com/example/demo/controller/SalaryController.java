@@ -6,6 +6,9 @@ import com.example.demo.service.SalaryValidationService;
 import com.example.demo.service.SalaryValidationServiceImpl;
 import com.example.demo.service.SalaryWriteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,11 +27,13 @@ public class SalaryController {
     }
 
     @GetMapping
+    @Cacheable("salary")
     public List<Salary> getSalary(){
         return salaryReadService.getAllSalaries();
     }
 
     @GetMapping(path = "/{id}")
+    @Cacheable(value = "salary",key = "#id")
     public Salary getSalary(@PathVariable("id") int id){
         return salaryReadService.getSalary(id);
     }
@@ -36,14 +41,14 @@ public class SalaryController {
     @PostMapping
     public Salary postSalary(@RequestBody Salary salary){
         if(salaryValidationService.validateSalary(salary))
-            salaryWriteService.saveSalary(salary);
+            return salaryWriteService.saveSalary(salary);
         return salary;
     }
 
     @DeleteMapping(path = "/{id}")
+    @CachePut(value = "salary",key = "#id")
     public Salary deleteSalary(@PathVariable("id") int id){
-        salaryWriteService.deleteSalary(id);
-        return salaryReadService.getSalary(id);
+        return salaryWriteService.deleteSalary(id);
     }
 
 }

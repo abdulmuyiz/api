@@ -20,15 +20,16 @@ public class EducationDetailsWriteServiceImpl implements EducationDetailsWriteSe
     }
 
     @Override
-    public void saveEducationDetails(EducationDetails educationDetails) {
+    public EducationDetails saveEducationDetails(EducationDetails educationDetails) {
         Timestamp timestamp = new Timestamp(new Date().getTime());
         educationDetails.setCreated(timestamp);
         educationDetails.setUpdated(timestamp);
         educationDetailsRepository.save(educationDetails);
+        return educationDetails;
     }
 
     @Override
-    public void updateEducationDetails(EducationDetails educationDetails, int id) {
+    public EducationDetails updateEducationDetails(EducationDetails educationDetails, int id) {
         Optional<EducationDetails> e = educationDetailsRepository.findById(id);
         if(e.isPresent()){
             Timestamp timestamp = new Timestamp(new Date().getTime());
@@ -41,5 +42,6 @@ public class EducationDetailsWriteServiceImpl implements EducationDetailsWriteSe
         }else{
             throw new ResourseNotFoundException("Education Details","id",id);
         }
+        return educationDetails;
     }
 }

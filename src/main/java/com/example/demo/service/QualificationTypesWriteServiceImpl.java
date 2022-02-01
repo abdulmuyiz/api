@@ -21,15 +21,16 @@ public class QualificationTypesWriteServiceImpl implements QualificationTypesWri
     }
 
     @Override
-    public void saveQualificationType(QualificationTypes qualificationTypes) {
+    public QualificationTypes saveQualificationType(QualificationTypes qualificationTypes) {
         Timestamp timestamp = new Timestamp(date.getTime());
         qualificationTypes.setCreated(timestamp);
         qualificationTypes.setUpdated(timestamp);
         qualificationTypesRepository.save(qualificationTypes);
+        return qualificationTypes;
     }
 
     @Override
-    public void updateQualificationTpe(QualificationTypes qualificationTypes, int id) {
+    public QualificationTypes updateQualificationTpe(QualificationTypes qualificationTypes, int id) {
         Timestamp timestamp = new Timestamp(date.getTime());
         Optional<QualificationTypes> qt = qualificationTypesRepository.findById(id);
         if(qt.isPresent()){
@@ -42,5 +43,6 @@ public class QualificationTypesWriteServiceImpl implements QualificationTypesWri
         }else{
             throw new ResourseNotFoundException("Qualification Types","ID",id);
         }
+        return qualificationTypes;
     }
 }

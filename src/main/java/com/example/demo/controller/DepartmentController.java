@@ -4,6 +4,9 @@ import com.example.demo.model.Department;
 import com.example.demo.service.DepartmentReadService;
 import com.example.demo.service.DepartmentWriteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,31 +24,34 @@ public class DepartmentController {
     }
 
     @GetMapping
+    @Cacheable(value = "departments")
     public List<Department> getDepartment(){
+        System.out.println("Access DB");
         return departmentReadService.getAllDepartments();
     }
 
     @GetMapping(path = "/{id}")
+    @Cacheable(key = "#id", value = "departments")
     public Department getDepartment(@PathVariable("id") long id){
         return departmentReadService.getDepartment(id);
     }
 
     @PostMapping
     public Department postDepartment(@RequestBody Department department){
-        departmentWriteService.saveDepartment(department);
-        return department;
+        return departmentWriteService.saveDepartment(department);
     }
 
     @PutMapping(path = "/{id}")
+    @CachePut(key = "#id",value = "departments")
     public Department putDepartment(@RequestBody Department department, @PathVariable("id") long id){
-        departmentWriteService.updateDepartment(department,id);
-        return department;
+        return departmentWriteService.updateDepartment(department,id);
     }
 
     @DeleteMapping(path = "/{id}")
+    @CachePut(key = "#id",value = "departments")
     public Department deleteDepartment(@PathVariable("id") long id){
-        departmentWriteService.deleteDepartment(id);
-        return departmentReadService.getDepartment(id);
+        return departmentWriteService.deleteDepartment(id);
+
     }
 
 }

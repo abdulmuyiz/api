@@ -1,17 +1,17 @@
 package com.example.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.redis.core.RedisHash;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 
 
 @Entity
 @Table(name = "departments")
-
-
-public class Department {
+public class Department implements Serializable {
 
     public Department() {
     }

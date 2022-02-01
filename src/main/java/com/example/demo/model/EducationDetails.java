@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 
@@ -13,7 +14,7 @@ import java.sql.Timestamp;
 @Table(name = "education_details")
 @AllArgsConstructor
 @NoArgsConstructor
-public class EducationDetails {
+public class EducationDetails implements Serializable {
     public enum SourceType{
         CGPA, Percentage
     }

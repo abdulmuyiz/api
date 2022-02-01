@@ -19,10 +19,11 @@ public class OfficeWriteServiceImpl implements OfficeWriteService {
     }
 
     @Override
-    public void saveOffice(Office office) {
+    public Office saveOffice(Office office) {
         Timestamp timestamp = new Timestamp(date.getTime());
         office.setCreated(timestamp);
         office.setUpdated(timestamp);
         officeRepository.save(office);
+        return office;
     }
 }
