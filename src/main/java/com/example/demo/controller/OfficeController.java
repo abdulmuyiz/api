@@ -5,6 +5,7 @@ import com.example.demo.service.OfficeReadService;
 import com.example.demo.service.OfficeWriteService;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,8 +33,9 @@ public class OfficeController {
     }
 
     @PostMapping
-    public Office postOffice(@RequestBody Office office){
-        return officeWriteService.saveOffice(office);
+    public ResponseEntity<String> postOffice(@RequestBody Office office){
+        officeWriteService.saveOffice(office);
+        return ResponseEntity.ok("Office Saved Successfully");
     }
 
 }

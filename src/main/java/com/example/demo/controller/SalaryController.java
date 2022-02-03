@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,7 +34,7 @@ public class SalaryController {
     }
 
     @GetMapping(path = "/{id}")
-    @Cacheable(value = "salary",key = "#id")
+    @Cacheable(value = "salaries",key = "#id")
     public Salary getSalary(@PathVariable("id") int id){
         return salaryReadService.getSalary(id);
     }
@@ -58,16 +60,19 @@ public class SalaryController {
     }
 
     @PostMapping
-    public Salary postSalary(@RequestBody Salary salary){
-        if(salaryValidationService.validateSalary(salary))
-            return salaryWriteService.saveSalary(salary);
-        return salary;
+    public ResponseEntity<String> postSalary(@RequestBody Salary salary){
+        if(salaryValidationService.validateSalary(salary)) {
+            salaryWriteService.saveSalary(salary);
+            return ResponseEntity.ok("Salary saved successfully");
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     @DeleteMapping(path = "/{id}")
-    @CachePut(value = "salary",key = "#id")
-    public Salary deleteSalary(@PathVariable("id") int id){
-        return salaryWriteService.deleteSalary(id);
+    public ResponseEntity<String> deleteSalary(@PathVariable("id") int id){
+        salaryWriteService.deleteSalary(id);
+        return ResponseEntity.ok("Salary set to inactive successfully");
+
     }
 
 }

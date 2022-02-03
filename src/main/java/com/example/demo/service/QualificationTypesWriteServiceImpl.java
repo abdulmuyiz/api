@@ -4,6 +4,7 @@ import com.example.demo.exception.ResourseNotFoundException;
 import com.example.demo.model.QualificationTypes;
 import com.example.demo.repository.QualificationTypesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -30,6 +31,7 @@ public class QualificationTypesWriteServiceImpl implements QualificationTypesWri
     }
 
     @Override
+    @CachePut(value = "qualificationTypes",key = "#id")
     public QualificationTypes updateQualificationTpe(QualificationTypes qualificationTypes, int id) {
         Timestamp timestamp = new Timestamp(date.getTime());
         Optional<QualificationTypes> qt = qualificationTypesRepository.findById(id);
@@ -40,9 +42,10 @@ public class QualificationTypesWriteServiceImpl implements QualificationTypesWri
             qualificationTypes.setUpdated(timestamp);
             qualificationTypes1 = qualificationTypes;
             qualificationTypesRepository.save(qualificationTypes1);
+            return qualificationTypes;
         }else{
             throw new ResourseNotFoundException("Qualification Types","ID",id);
         }
-        return qualificationTypes;
+
     }
 }

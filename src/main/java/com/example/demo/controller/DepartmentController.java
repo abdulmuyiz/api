@@ -6,6 +6,8 @@ import com.example.demo.service.DepartmentWriteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,33 +26,32 @@ public class DepartmentController {
 
     @GetMapping
     public List<Department> getDepartment(){
-        System.out.println("Access DB");
         return departmentReadService.getAllDepartments();
     }
 
     @GetMapping(path = "/{id}")
     @Cacheable(key = "#id", value = "departments")
     public Department getDepartment(@PathVariable("id") long id){
-        System.out.println("checking flow");
         return departmentReadService.getDepartment(id);
     }
 
     @PostMapping
-    public Department postDepartment(@RequestBody Department department){
-        return departmentWriteService.saveDepartment(department);
+    public ResponseEntity<String> postDepartment(@RequestBody Department department){
+        departmentWriteService.saveDepartment(department);
+        return ResponseEntity.ok("Department Created Successfully");
     }
 
     @PutMapping(path = "/{id}")
-    @CachePut(key = "#id",value = "departments")
-    public Department putDepartment(@RequestBody Department department, @PathVariable("id") long id){
-        return departmentWriteService.updateDepartment(department,id);
+    public ResponseEntity<String> putDepartment(@RequestBody Department department, @PathVariable("id") long id){
+        departmentWriteService.updateDepartment(department,id);
+        return ResponseEntity.ok("Department Updated Successfully");
+
     }
 
     @DeleteMapping(path = "/{id}")
-    @CachePut(key = "#id",value = "departments")
-    public Department deleteDepartment(@PathVariable("id") long id){
-        return departmentWriteService.deleteDepartment(id);
-
+    public ResponseEntity<String> deleteDepartment(@PathVariable("id") long id){
+        departmentWriteService.deleteDepartment(id);
+        return ResponseEntity.ok("Department Updated Successfully");
     }
 
 }

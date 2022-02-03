@@ -4,6 +4,7 @@ import com.example.demo.exception.ResourseNotFoundException;
 import com.example.demo.model.Salary;
 import com.example.demo.repository.SalaryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -30,6 +31,7 @@ public class SalaryWriteServiceImpl implements SalaryWriteService {
     }
 
     @Override
+    @CachePut(value = "salaries",key = "#id")
     public Salary deleteSalary(int id) {
         Timestamp timestamp = new Timestamp(date.getTime());
         Optional<Salary> s = salaryRepository.findById(id);

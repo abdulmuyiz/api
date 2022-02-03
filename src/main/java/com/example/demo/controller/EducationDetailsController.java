@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.exception.ApiRequestException;
 import com.example.demo.model.EducationDetails;
 import com.example.demo.service.EducationDetailsReadService;
 import com.example.demo.service.EducationDetailsValidationService;
@@ -10,6 +11,7 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,18 +41,21 @@ public class EducationDetailsController {
     }
 
     @PostMapping
-    public EducationDetails postEducationDetails(@RequestBody EducationDetails educationDetails){
-        if(educationDetailsValidationService.validateEducationDetails(educationDetails))
-            return educationDetailsWriteService.saveEducationDetails(educationDetails);
-        return educationDetails;
+    public ResponseEntity<Object> postEducationDetails(@RequestBody EducationDetails educationDetails) throws ApiRequestException {
+        if(educationDetailsValidationService.validateEducationDetails(educationDetails)){
+            educationDetailsWriteService.saveEducationDetails(educationDetails);
+            return ResponseEntity.ok("Education Details Saved Successfully");
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     @PutMapping(path = "/{id}")
-    @CachePut(value = "educationDetails",key = "#id")
-    public EducationDetails putEducationDetails(@RequestBody EducationDetails educationDetails, @PathVariable("id") int id){
-        if(educationDetailsValidationService.validateEducationDetails(educationDetails))
-            return educationDetailsWriteService.updateEducationDetails(educationDetails,id);
-        return educationDetails;
+    public ResponseEntity<Object> putEducationDetails(@RequestBody EducationDetails educationDetails, @PathVariable("id") int id){
+        if(educationDetailsValidationService.validateEducationDetails(educationDetails)) {
+            educationDetailsWriteService.updateEducationDetails(educationDetails, id);
+            return ResponseEntity.ok("Education Details Updated Successfully");
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
 }

@@ -9,22 +9,18 @@ import java.util.List;
 
 @Service
 public class EducationDetailsValidationServiceImpl implements EducationDetailsValidationService {
-    List<String> errors = new ArrayList<>();
+    List<String> errors;
     @Override
     public boolean validateEducationDetails(EducationDetails educationDetails) {
-        try{
-            if((educationDetails.getSourceType() == EducationDetails.SourceType.CGPA &&
+        errors = new ArrayList<>();
+        if((educationDetails.getSourceType() == EducationDetails.SourceType.CGPA &&
                     (educationDetails.getScore()>10 || educationDetails.getScore()<0)) ||
                     (educationDetails.getSourceType() == EducationDetails.SourceType.Percentage &&
-                    (educationDetails.getScore()>10 || educationDetails.getScore()<0))){
+                    (educationDetails.getScore()>100 || educationDetails.getScore()<0))){
                 errors.add("source");
                 throw new ValidationException(errors, "INVALID Score for type");
-            }
-            return true;
-        }catch (ValidationException e){
-            System.out.println(e.getMessage());
-            return false;
         }
+        return true;
 
     }
 }

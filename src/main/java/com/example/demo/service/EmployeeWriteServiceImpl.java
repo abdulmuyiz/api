@@ -1,9 +1,11 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.ApiRequestException;
 import com.example.demo.exception.ResourseNotFoundException;
 import com.example.demo.model.Employee;
 import com.example.demo.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -21,7 +23,7 @@ public class EmployeeWriteServiceImpl implements EmployeeWriteService {
     }
 
     @Override
-    public Employee saveEmployee(Employee employee) {
+    public Employee saveEmployee(Employee employee) throws ApiRequestException {
         Timestamp timestamp = new Timestamp(date.getTime());
         employee.setCreated(timestamp);
         employee.setUpdated(timestamp);
@@ -30,6 +32,7 @@ public class EmployeeWriteServiceImpl implements EmployeeWriteService {
     }
 
     @Override
+    @CachePut(value = "employees", key = "#id")
     public Employee updateEmployee(Employee employee, long id) {
         Timestamp timestamp = new Timestamp(date.getTime());
         Optional<Employee> emp = employeeRepository.findById(id);
@@ -40,13 +43,15 @@ public class EmployeeWriteServiceImpl implements EmployeeWriteService {
             employee.setId(id);
             employee1 = employee;
             employeeRepository.save(employee1);
+            return employee;
         }else{
             throw new ResourseNotFoundException("Employee","Id",id);
         }
-        return employee;
+
     }
 
     @Override
+    @CachePut(value = "employees", key = "#id")
     public Employee deleteEmployee(long id) {
         Timestamp timestamp = new Timestamp(date.getTime());
         Optional<Employee> emp = employeeRepository.findById(id);

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,13 +36,14 @@ public class QualificationTypesController {
     }
 
     @PostMapping
-    public QualificationTypes postQualificationTypes(@RequestBody QualificationTypes qualificationTypes){
-        return qualificationTypesWriteService.saveQualificationType(qualificationTypes);
+    public ResponseEntity<String> postQualificationTypes(@RequestBody QualificationTypes qualificationTypes){
+        qualificationTypesWriteService.saveQualificationType(qualificationTypes);
+        return ResponseEntity.ok("Qualification Types saved Successfully");
     }
 
     @PutMapping(path = "/{id}")
-    @CachePut(value = "qualificationTypes",key = "#id")
-    public QualificationTypes putQualificationType(@RequestBody QualificationTypes qualificationTypes,@PathVariable("id") int id){
-        return qualificationTypesWriteService.updateQualificationTpe(qualificationTypes,id);
+    public ResponseEntity<String> putQualificationType(@RequestBody QualificationTypes qualificationTypes,@PathVariable("id") int id){
+        qualificationTypesWriteService.updateQualificationTpe(qualificationTypes,id);
+        return ResponseEntity.ok("Qualification Types updated Successfully");
     }
 }

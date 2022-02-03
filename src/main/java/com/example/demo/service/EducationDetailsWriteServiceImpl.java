@@ -1,9 +1,12 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.ApiRequestException;
 import com.example.demo.exception.ResourseNotFoundException;
 import com.example.demo.model.EducationDetails;
 import com.example.demo.repository.EducationDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -20,7 +23,8 @@ public class EducationDetailsWriteServiceImpl implements EducationDetailsWriteSe
     }
 
     @Override
-    public EducationDetails saveEducationDetails(EducationDetails educationDetails) {
+    @CachePut(value = "educationDetails", key = "#id")
+    public EducationDetails saveEducationDetails(EducationDetails educationDetails) throws ApiRequestException {
         Timestamp timestamp = new Timestamp(new Date().getTime());
         educationDetails.setCreated(timestamp);
         educationDetails.setUpdated(timestamp);
@@ -29,6 +33,7 @@ public class EducationDetailsWriteServiceImpl implements EducationDetailsWriteSe
     }
 
     @Override
+    @CachePut(value = "educationDetails", key = "#id")
     public EducationDetails updateEducationDetails(EducationDetails educationDetails, int id) {
         Optional<EducationDetails> e = educationDetailsRepository.findById(id);
         if(e.isPresent()){
@@ -39,9 +44,9 @@ public class EducationDetailsWriteServiceImpl implements EducationDetailsWriteSe
             educationDetails.setCreated(educationDetails1.getCreated());
             educationDetails1 =educationDetails;
             educationDetailsRepository.save(educationDetails1);
+            return educationDetails;
         }else{
             throw new ResourseNotFoundException("Education Details","id",id);
         }
-        return educationDetails;
     }
 }
