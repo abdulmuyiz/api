@@ -55,9 +55,9 @@ public class EmployeeWriteServiceImpl implements EmployeeWriteService {
             employee.setUpdated(timestamp);
             employee.setStatus(Employee.EmpStatus.Inactive);
             employeeRepository.save(employee);
+            return employee;
         }else{
             throw new ResourseNotFoundException("Employee","Id",id);
         }
-        return null;
     }
 }

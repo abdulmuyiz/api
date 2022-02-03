@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -27,6 +28,7 @@ class EmployeeRepositoryTest {
     void findEmployeeByDepID() {
         long dept_id = 1;
         Office office = new Office(
+                1,
                 "name",
                 "address",
                 new Timestamp(new Date().getTime()),
@@ -54,7 +56,7 @@ class EmployeeRepositoryTest {
         );
         employeeRepository.save(employee);
 
-        List<Employee> expected = employeeRepository.findEmployeeByDepID(dept_id);
+        Employee expected = (Employee) employeeRepository.findEmployeeByDepID(dept_id);
 
         assert(expected).equals(employee);
     }

@@ -28,7 +28,6 @@ public class EducationDetailsController {
     }
 
     @GetMapping
-    @Cacheable("educationDetails")
     public List<EducationDetails> getEducationDetails(){
         return educationDetailsReadService.getAllEducationDetails();
     }

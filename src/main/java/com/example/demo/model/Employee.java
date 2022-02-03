@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -40,6 +41,7 @@ public class Employee implements Serializable {
     @JsonProperty("department_id")
     private Department department;
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name= "office_id")
     @JsonProperty("office_id")
     private Office office;

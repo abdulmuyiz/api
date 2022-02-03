@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.ApiRequestException;
 import com.example.demo.exception.ResourseNotFoundException;
 import com.example.demo.model.Department;
 import com.example.demo.repository.DepartmentRepository;
@@ -20,7 +21,7 @@ public class DepartmentWriteServiceImpl implements DepartmentWriteService {
         this.departmentRepository = departmentRepository;
     }
 
-    public Department saveDepartment(Department department) {
+    public Department saveDepartment(Department department) throws ApiRequestException {
         department.setStatus(Department.DepStatus.Active);
         Timestamp timestamp = new Timestamp(date.getTime());
         department.setCreated(timestamp);
@@ -55,9 +56,9 @@ public class DepartmentWriteServiceImpl implements DepartmentWriteService {
             department.setUpdated(timestamp);
             department.setStatus(Department.DepStatus.Inactive);
             departmentRepository.save(department);
+            return department;
         }else{
             throw new ResourseNotFoundException("Department","id",id);
         }
-        return null;
     }
 }

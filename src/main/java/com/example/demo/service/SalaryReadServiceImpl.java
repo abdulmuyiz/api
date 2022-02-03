@@ -26,4 +26,25 @@ public class SalaryReadServiceImpl implements SalaryReadService {
     public Salary getSalary(int id) {
         return salaryRepository.findById(id).orElseThrow(()->new ResourseNotFoundException("Salary","id",id));
     }
+
+    @Override
+    public List<Salary> fetchTopNSalariesOfEmp(long id, int n) {
+        return salaryRepository.fetchTopNSalariesOfEmployee(id,n);
+    }
+
+    @Override
+    public List<Salary> fetchBottomNSalariesOfEmp(long id, int n) {
+        return salaryRepository.fetchBottomNSalariesOfEmployee(id,n);
+    }
+
+    @Override
+    public List<Salary> fetchTopNSalaries(int n) {
+        return salaryRepository.fetchTopNSalaries(n);
+    }
+
+    @Override
+    public List<Salary> fetchBottomNSalaries(int n) {
+        return salaryRepository.fetchBottomNSalaries(n);
+    }
+
 }

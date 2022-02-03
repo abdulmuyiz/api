@@ -1,5 +1,8 @@
 package com.example.demo.model;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -8,17 +11,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "offices")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Office implements Serializable {
-    public Office() {
-    }
-
-    public Office(String name, String address, Timestamp created, Timestamp updated) {
-        this.name = name;
-        this.address = address;
-        this.created = created;
-        this.updated = updated;
-    }
-
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

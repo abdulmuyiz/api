@@ -27,7 +27,6 @@ public class SalaryController {
     }
 
     @GetMapping
-    @Cacheable("salary")
     public List<Salary> getSalary(){
         return salaryReadService.getAllSalaries();
     }
@@ -36,6 +35,26 @@ public class SalaryController {
     @Cacheable(value = "salary",key = "#id")
     public Salary getSalary(@PathVariable("id") int id){
         return salaryReadService.getSalary(id);
+    }
+
+    @GetMapping(path = "/{id}/top/{n}")
+    public List<Salary> fetchTopNSalariesOfEmployee(@PathVariable("id") long id,@PathVariable("n") int n){
+        return salaryReadService.fetchTopNSalariesOfEmp(id,n);
+    }
+
+    @GetMapping(path = "/{id}/bottom/{n}")
+    public List<Salary> fetchBottomNSalariesOfEmployee(@PathVariable("id") long id,@PathVariable("n") int n){
+        return salaryReadService.fetchBottomNSalariesOfEmp(id,n);
+    }
+
+    @GetMapping(path = "/top/{n}")
+    public List<Salary> fetchTopNSalaries(@PathVariable("n") int n){
+        return salaryReadService.fetchTopNSalaries(n);
+    }
+
+    @GetMapping(path = "/bottom/{n}")
+    public List<Salary> fetchBottomNSalaries(@PathVariable("n") int n){
+        return salaryReadService.fetchBottomNSalaries(n);
     }
 
     @PostMapping

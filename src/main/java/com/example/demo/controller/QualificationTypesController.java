@@ -24,7 +24,6 @@ public class QualificationTypesController {
     }
 
     @GetMapping
-    @Cacheable("qualificationTypes")
     public List<QualificationTypes> getQualificationTypes(){
         return qualificationTypesReadService.getAllQualificationTypes();
     }

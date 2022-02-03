@@ -21,7 +21,6 @@ public class OfficeController {
     }
 
     @GetMapping
-    @Cacheable("offices")
     public List<Office> getOffice(){
         return officeReadService.getAllOffices();
     }

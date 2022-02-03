@@ -27,7 +27,6 @@ public class EmployeeController {
     }
 
     @GetMapping
-    @Cacheable("employee")
     public List<Employee> getEmployee(){
         return employeeReadService.getAllEmployees();
     }
@@ -39,13 +38,11 @@ public class EmployeeController {
     }
 
     @GetMapping(path = "/departments/{id}")
-    @Cacheable(value = "employeesInDep", key = "#id")
     public List<Employee> getEmployeeByDep(@PathVariable("id") long id){
         return employeeReadService.getEmpByDepId(id);
     }
 
     @GetMapping(path = "/departments/count/{id}")
-    @Cacheable(value = "numOfEmpInDep", key = "#id")
     public Integer getNumberOfEmployeeInDep(@PathVariable("id") long id){
         return employeeReadService.numberOfEmpInDep(id);
     }
@@ -58,7 +55,7 @@ public class EmployeeController {
     }
 
     @PutMapping(path = "/{id}")
-    @CachePut(value = "employeesInDep", key = "#id")
+    @CachePut(value = "employees", key = "#id")
     public Employee putEmployee(@RequestBody Employee employee, @PathVariable("id") long id){
         if(employeeValidationService.validateEmployee(employee))
             return employeeWriteService.updateEmployee(employee,id);

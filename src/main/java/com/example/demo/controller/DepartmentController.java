@@ -6,7 +6,6 @@ import com.example.demo.service.DepartmentWriteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +23,6 @@ public class DepartmentController {
     }
 
     @GetMapping
-    @Cacheable(value = "departments")
     public List<Department> getDepartment(){
         System.out.println("Access DB");
         return departmentReadService.getAllDepartments();
@@ -33,6 +31,7 @@ public class DepartmentController {
     @GetMapping(path = "/{id}")
     @Cacheable(key = "#id", value = "departments")
     public Department getDepartment(@PathVariable("id") long id){
+        System.out.println("checking flow");
         return departmentReadService.getDepartment(id);
     }
 

@@ -1,6 +1,10 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.data.redis.core.RedisHash;
 
 import javax.persistence.*;
@@ -11,21 +15,9 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "departments")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Department implements Serializable {
-
-    public Department() {
-    }
-
-    public Department(long id, String name, String type, DepStatus status, Office office, Timestamp created, Timestamp updated) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
-        this.status = status;
-        this.office = office;
-        this.created = created;
-        this.updated = updated;
-    }
-
     public enum DepStatus{
         Active, Inactive
     }

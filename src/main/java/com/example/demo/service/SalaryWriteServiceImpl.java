@@ -38,9 +38,9 @@ public class SalaryWriteServiceImpl implements SalaryWriteService {
             salary.setUpdated(timestamp);
             salary.setStatus(Salary.SalaryStatus.Inactive);
             salaryRepository.save(salary);
+            return salary;
         }else{
             throw new ResourseNotFoundException("Salary","id",id);
         }
-        return null;
     }
 }

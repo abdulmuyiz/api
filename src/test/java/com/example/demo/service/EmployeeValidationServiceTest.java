@@ -64,7 +64,6 @@ class EmployeeValidationServiceTest {
                 new Timestamp(new Date().getTime()),
                 new Timestamp(new Date().getTime())
         );
-
         assertFalse(employeeValidationService.validateEmployee(employee));
     }
 }

@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.ApiRequestException;
 import com.example.demo.exception.ResourseNotFoundException;
 import com.example.demo.model.Department;
 import com.example.demo.repository.DepartmentRepository;
@@ -19,7 +20,7 @@ public class DepartmentReadServiceImpl implements DepartmentReadService {
     }
 
     @Override
-    public List<Department> getAllDepartments() {
+    public List<Department> getAllDepartments() throws ApiRequestException {
         return departmentRepository.findAll();
     }
 

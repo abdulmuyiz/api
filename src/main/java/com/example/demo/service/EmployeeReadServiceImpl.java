@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.ApiRequestException;
 import com.example.demo.exception.ResourseNotFoundException;
 import com.example.demo.model.Employee;
 import com.example.demo.repository.EmployeeRepository;
@@ -28,12 +29,12 @@ public class EmployeeReadServiceImpl implements EmployeeReadService {
     }
 
     @Override
-    public List<Employee> getEmpByDepId(long id) {
+    public List<Employee> getEmpByDepId(long id){
         return employeeRepository.findEmployeeByDepID(id);
     }
 
     @Override
-    public Integer numberOfEmpInDep(long id) {
+    public Integer numberOfEmpInDep(long id){
         return employeeRepository.numberOfEmployeesInDep(id);
     }
 

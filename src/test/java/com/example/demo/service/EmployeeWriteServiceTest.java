@@ -12,7 +12,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,6 +35,7 @@ class EmployeeWriteServiceTest {
     @Test
     void saveEmployee() {
         Office office = new Office(
+                1,
                 "name",
                 "address",
                 new Timestamp(new Date().getTime()),

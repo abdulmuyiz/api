@@ -26,7 +26,7 @@ public class EmployeeValidationServiceImpl implements EmployeeValidationService 
 
     @Override
     public boolean validateEmployee(Employee employee) {
-        try{
+            errors = new ArrayList<>();
             if(employee.getAge() < 18){
                 errors.add("age");
             }
@@ -34,12 +34,8 @@ public class EmployeeValidationServiceImpl implements EmployeeValidationService 
                 errors.add("Contact Number");
             }
             if(!errors.isEmpty()){
-                throw new ValidationException(errors , "Invlaid entries");
+                throw new ValidationException(errors , "Invalid entries");
             }
             return true;
-        }catch (ValidationException e){
-            System.out.println(e.getMessage());
-            return false;
-        }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.model.Department;
 import com.example.demo.model.Office;
 import com.example.demo.repository.OfficeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,6 +33,7 @@ class OfficeWriteServiceTest {
     @Test
     void saveOffice() {
         Office office = new Office(
+                1,
                 "name",
                 "address",
                 new Timestamp(new Date().getTime()),
