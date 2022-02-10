@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.repository.OfficeRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -29,6 +30,7 @@ class OfficeReadServiceTest {
     }
 
     @Test
+    @Disabled
     void getOffice() {
     }
 }

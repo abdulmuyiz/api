@@ -3,29 +3,30 @@ package com.example.demo.controller;
 import com.example.demo.model.Salary;
 import com.example.demo.service.SalaryReadService;
 import com.example.demo.service.SalaryValidationService;
-import com.example.demo.service.SalaryValidationServiceImpl;
 import com.example.demo.service.SalaryWriteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping(path = "api/v1/salaries")
 public class SalaryController {
     private final SalaryReadService salaryReadService;
     private final SalaryWriteService salaryWriteService;
-    private final SalaryValidationService salaryValidationService = new SalaryValidationServiceImpl();
+    private final SalaryValidationService salaryValidationService;
 
     @Autowired
-    public SalaryController(SalaryReadService salaryReadService, SalaryWriteService salaryWriteService) {
+    public SalaryController(SalaryReadService salaryReadService, SalaryWriteService salaryWriteService, SalaryValidationService salaryValidationService) {
         this.salaryReadService = salaryReadService;
         this.salaryWriteService = salaryWriteService;
+        this.salaryValidationService = salaryValidationService;
     }
 
     @GetMapping
@@ -59,9 +60,13 @@ public class SalaryController {
         return salaryReadService.fetchBottomNSalaries(n);
     }
 
+    @Transactional
     @PostMapping
     public ResponseEntity<String> postSalary(@RequestBody Salary salary){
         if(salaryValidationService.validateSalary(salary)) {
+            int id = salaryValidationService.checkedPreviousSalary(salary);
+            if(id>0)
+                salaryWriteService.deleteSalary(id);
             salaryWriteService.saveSalary(salary);
             return ResponseEntity.ok("Salary saved successfully");
         }
@@ -75,4 +80,9 @@ public class SalaryController {
 
     }
 
+    @GetMapping(path = "/completableFuture")
+    @Async
+    public CompletableFuture<ResponseEntity> getSalariesAsync(){
+        return salaryReadService.getAllSalariesAsync().thenApply(ResponseEntity::ok);
+    }
 }

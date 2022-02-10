@@ -23,11 +23,7 @@ public class EducationDetailsWriteServiceImpl implements EducationDetailsWriteSe
     }
 
     @Override
-    @CachePut(value = "educationDetails", key = "#id")
     public EducationDetails saveEducationDetails(EducationDetails educationDetails) throws ApiRequestException {
-        Timestamp timestamp = new Timestamp(new Date().getTime());
-        educationDetails.setCreated(timestamp);
-        educationDetails.setUpdated(timestamp);
         educationDetailsRepository.save(educationDetails);
         return educationDetails;
     }
@@ -37,14 +33,13 @@ public class EducationDetailsWriteServiceImpl implements EducationDetailsWriteSe
     public EducationDetails updateEducationDetails(EducationDetails educationDetails, int id) {
         Optional<EducationDetails> e = educationDetailsRepository.findById(id);
         if(e.isPresent()){
-            Timestamp timestamp = new Timestamp(new Date().getTime());
-            EducationDetails educationDetails1 = e.get();
-            educationDetails.setUpdated(timestamp);
-            educationDetails.setId(id);
-            educationDetails.setCreated(educationDetails1.getCreated());
-            educationDetails1 =educationDetails;
-            educationDetailsRepository.save(educationDetails1);
-            return educationDetails;
+            EducationDetails updateEducationDetails = e.get();
+            updateEducationDetails.setEmployee(educationDetails.getEmployee());
+            updateEducationDetails.setQualificationTypes(educationDetails.getQualificationTypes());
+            updateEducationDetails.setSourceType(educationDetails.getSourceType());
+            updateEducationDetails.setScore(educationDetails.getScore());
+            educationDetailsRepository.save(updateEducationDetails);
+            return updateEducationDetails;
         }else{
             throw new ResourseNotFoundException("Education Details","id",id);
         }

@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.repository.EmployeeRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -29,14 +30,17 @@ class EmployeeReadServiceTest {
     }
 
     @Test
+    @Disabled
     void getEmployee() {
     }
 
     @Test
+    @Disabled
     void getEmpByDepId() {
     }
 
     @Test
+    @Disabled
     void numberOfEmpInDep() {
     }
 }

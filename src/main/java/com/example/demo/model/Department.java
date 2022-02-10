@@ -1,22 +1,26 @@
 package com.example.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-import org.springframework.data.redis.core.RedisHash;
+import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-
-
 @Entity
 @Table(name = "departments")
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Department implements Serializable {
     public enum DepStatus{
         Active, Inactive
@@ -31,69 +35,16 @@ public class Department implements Serializable {
     private String type;
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
-    private DepStatus status;
+    private DepStatus status = DepStatus.Active;
     @ManyToOne
     @JoinColumn(name = "office_id")
     @JsonProperty("office_id")
+    @JsonIdentityReference(alwaysAsId = true)
     private Office office;
     @Column(name= "created_at")
+    @CreationTimestamp
     private Timestamp created;
     @Column(name = "updated_at")
+    @UpdateTimestamp
     private Timestamp updated;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public DepStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(DepStatus status) {
-        this.status = status;
-    }
-
-    public Office getOffice() {
-        return office;
-    }
-
-    public void setOffice(Office office) {
-        this.office = office;
-    }
-
-    public Timestamp getCreated() {
-        return created;
-    }
-
-    public void setCreated(Timestamp created) {
-        this.created = created;
-    }
-
-    public Timestamp getUpdated() {
-        return updated;
-    }
-
-    public void setUpdated(Timestamp updated) {
-        this.updated = updated;
-    }
 }

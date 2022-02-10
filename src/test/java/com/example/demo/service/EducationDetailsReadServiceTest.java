@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.repository.EducationDetailsRepository;
 import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -31,6 +32,7 @@ class EducationDetailsReadServiceTest {
     }
 
     @Test
+    @Disabled
     void getEducationDetails() {
 
     }

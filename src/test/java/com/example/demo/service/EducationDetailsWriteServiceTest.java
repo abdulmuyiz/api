@@ -5,6 +5,7 @@ import com.example.demo.model.Employee;
 import com.example.demo.model.QualificationTypes;
 import com.example.demo.repository.EducationDetailsRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -56,6 +57,7 @@ class EducationDetailsWriteServiceTest {
     }
 
     @Test
+    @Disabled
     void updateEducationDetails() {
     }
 }

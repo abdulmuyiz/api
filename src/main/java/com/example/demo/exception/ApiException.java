@@ -16,6 +16,4 @@ public class ApiException{
         this.httpStatus = httpStatus;
         this.timestamp = timestamp;
     }
-
-
 }

@@ -8,9 +8,11 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping(path = "api/v1/qualificationTypes")
@@ -46,4 +48,11 @@ public class QualificationTypesController {
         qualificationTypesWriteService.updateQualificationTpe(qualificationTypes,id);
         return ResponseEntity.ok("Qualification Types updated Successfully");
     }
+
+    @GetMapping(path = "/completableFuture")
+    @Async
+    public CompletableFuture<ResponseEntity> getAllQualificationTypesAsync(){
+        return qualificationTypesReadService.getAllQualificationTypesAsync().thenApply(ResponseEntity::ok);
+    }
+
 }

@@ -14,7 +14,6 @@ import java.util.Optional;
 
 @Service
 public class EmployeeWriteServiceImpl implements EmployeeWriteService {
-    Date date = new Date();
     private final EmployeeRepository employeeRepository;
 
     @Autowired
@@ -24,9 +23,6 @@ public class EmployeeWriteServiceImpl implements EmployeeWriteService {
 
     @Override
     public Employee saveEmployee(Employee employee) throws ApiRequestException {
-        Timestamp timestamp = new Timestamp(date.getTime());
-        employee.setCreated(timestamp);
-        employee.setUpdated(timestamp);
         employeeRepository.save(employee);
         return employee;
     }
@@ -34,16 +30,19 @@ public class EmployeeWriteServiceImpl implements EmployeeWriteService {
     @Override
     @CachePut(value = "employees", key = "#id")
     public Employee updateEmployee(Employee employee, long id) {
-        Timestamp timestamp = new Timestamp(date.getTime());
+        Timestamp timestamp = new Timestamp(new Date().getTime());
         Optional<Employee> emp = employeeRepository.findById(id);
         if(emp.isPresent()){
-            Employee employee1 = emp.get();
-            employee.setUpdated(timestamp);
-            employee.setCreated(employee1.getCreated());
-            employee.setId(id);
-            employee1 = employee;
-            employeeRepository.save(employee1);
-            return employee;
+            Employee updateEmployee = emp.get();
+            updateEmployee.setName(employee.getName());
+            updateEmployee.setAge(employee.getAge());
+            updateEmployee.setAddress(employee.getAddress());
+            updateEmployee.setContact_number(employee.getContact_number());
+            updateEmployee.setStatus(employee.getStatus());
+            updateEmployee.setDepartment(employee.getDepartment());
+            updateEmployee.setOffice(employee.getOffice());
+            employeeRepository.save(updateEmployee);
+            return updateEmployee;
         }else{
             throw new ResourseNotFoundException("Employee","Id",id);
         }
@@ -53,11 +52,9 @@ public class EmployeeWriteServiceImpl implements EmployeeWriteService {
     @Override
     @CachePut(value = "employees", key = "#id")
     public Employee deleteEmployee(long id) {
-        Timestamp timestamp = new Timestamp(date.getTime());
         Optional<Employee> emp = employeeRepository.findById(id);
         if(emp.isPresent()){
             Employee employee = emp.get();
-            employee.setUpdated(timestamp);
             employee.setStatus(Employee.EmpStatus.Inactive);
             employeeRepository.save(employee);
             return employee;

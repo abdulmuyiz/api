@@ -6,6 +6,7 @@ import com.example.demo.model.Office;
 import com.example.demo.repository.DepartmentRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -19,6 +20,7 @@ import java.util.Date;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -40,18 +42,20 @@ class DepartmentReadServiceTest {
     }
 
     @Test
+    @Disabled
     void getDepartment() {
-        long id = 1;
-        Department department = new Department(
-                id,
-                "name",
-                "type",
-                Department.DepStatus.Active,
-                new Office(),
-                new Timestamp(new Date().getTime()),
-                new Timestamp(new Date().getTime())
-        );
-        when(readService.getDepartment(id)).thenReturn(null);
+//        long id = 1;
+//        Department department = new Department(
+//                id,
+//                "name",
+//                "type",
+//                Department.DepStatus.Active,
+//                new Office(),
+//                new Timestamp(new Date().getTime()),
+//                new Timestamp(new Date().getTime())
+//        );
+//        departmentRepository.save(department);
+//        assertThat(readService.getDepartment(id)).isEqualTo(null);
     }
 
     @Test

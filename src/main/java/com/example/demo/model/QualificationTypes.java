@@ -1,6 +1,14 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -8,6 +16,11 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "qualification_types")
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class QualificationTypes implements Serializable {
     @Id
     @Column(name = "id")
@@ -19,47 +32,10 @@ public class QualificationTypes implements Serializable {
     @JsonProperty("display_name")
     private String name;
     @Column(name= "created_at")
+    @CreationTimestamp
     private Timestamp created;
     @Column(name = "updated_at")
+    @UpdateTimestamp
     private Timestamp updated;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Timestamp getCreated() {
-        return created;
-    }
-
-    public void setCreated(Timestamp created) {
-        this.created = created;
-    }
-
-    public Timestamp getUpdated() {
-        return updated;
-    }
-
-    public void setUpdated(Timestamp updated) {
-        this.updated = updated;
-    }
 }

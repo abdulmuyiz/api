@@ -10,7 +10,6 @@ import java.util.List;
 @Repository
 public interface SalaryRepository extends JpaRepository<Salary,Integer> {
 
-
     @Query(value = "Select * from Salaries s where s.employee_id = ?1 order by s.amount desc limit ?2", nativeQuery = true)
     List<Salary> fetchTopNSalariesOfEmployee(long id, int n);
 
@@ -22,5 +21,8 @@ public interface SalaryRepository extends JpaRepository<Salary,Integer> {
 
     @Query(value = "Select * from Salaries s where s.status = 'Active' order by s.amount limit ?1",nativeQuery = true)
     List<Salary> fetchBottomNSalaries(int n);
+
+    @Query("Select s from Salary s where s.status = 'Active' and s.employee.id = ?1")
+    Salary checkEmployeeSalaryExists(long id);
 
 }

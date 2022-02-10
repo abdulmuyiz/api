@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.ApiRequestException;
 import com.example.demo.exception.ResourseNotFoundException;
 import com.example.demo.model.Salary;
 import com.example.demo.repository.SalaryRepository;
@@ -13,7 +14,6 @@ import java.util.Optional;
 
 @Service
 public class SalaryWriteServiceImpl implements SalaryWriteService {
-    Date date = new Date();
     private final SalaryRepository salaryRepository;
 
     @Autowired
@@ -23,9 +23,6 @@ public class SalaryWriteServiceImpl implements SalaryWriteService {
 
     @Override
     public Salary saveSalary(Salary salary) {
-        Timestamp timestamp = new Timestamp(date.getTime());
-        salary.setCreated(timestamp);
-        salary.setUpdated(timestamp);
         salaryRepository.save(salary);
         return salary;
     }
@@ -33,11 +30,9 @@ public class SalaryWriteServiceImpl implements SalaryWriteService {
     @Override
     @CachePut(value = "salaries",key = "#id")
     public Salary deleteSalary(int id) {
-        Timestamp timestamp = new Timestamp(date.getTime());
         Optional<Salary> s = salaryRepository.findById(id);
         if(s.isPresent()){
             Salary salary = s.get();
-            salary.setUpdated(timestamp);
             salary.setStatus(Salary.SalaryStatus.Inactive);
             salaryRepository.save(salary);
             return salary;

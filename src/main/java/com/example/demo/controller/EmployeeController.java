@@ -4,29 +4,29 @@ import com.example.demo.exception.ApiRequestException;
 import com.example.demo.model.Employee;
 import com.example.demo.service.EmployeeReadService;
 import com.example.demo.service.EmployeeValidationService;
-import com.example.demo.service.EmployeeValidationServiceImpl;
 import com.example.demo.service.EmployeeWriteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping(path = "api/v1/employees")
 public class EmployeeController {
     private final EmployeeReadService employeeReadService;
     private final EmployeeWriteService employeeWriteService;
-    private final EmployeeValidationService employeeValidationService = new EmployeeValidationServiceImpl();
+    private final EmployeeValidationService employeeValidationService;
 
     @Autowired
-    public EmployeeController(EmployeeReadService employeeReadService, EmployeeWriteService employeeWriteService) {
+    public EmployeeController(EmployeeReadService employeeReadService, EmployeeWriteService employeeWriteService, EmployeeValidationService employeeValidationService) {
         this.employeeReadService = employeeReadService;
         this.employeeWriteService = employeeWriteService;
+        this.employeeValidationService = employeeValidationService;
     }
 
     @GetMapping
@@ -72,5 +72,11 @@ public class EmployeeController {
     public ResponseEntity<String> deleteEmployee(@PathVariable("id") long id) {
         employeeWriteService.deleteEmployee(id);
         return ResponseEntity.ok("Employee set to Inactive Successfully");
+    }
+
+    @GetMapping(path = "/completableFuture")
+    @Async
+    public CompletableFuture<ResponseEntity> getAllEmployeesAsync(){
+        return employeeReadService.getAllEmployeesAsync().thenApply(ResponseEntity::ok);
     }
 }

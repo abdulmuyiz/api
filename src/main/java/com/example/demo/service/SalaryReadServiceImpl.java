@@ -4,9 +4,11 @@ import com.example.demo.exception.ResourseNotFoundException;
 import com.example.demo.model.Salary;
 import com.example.demo.repository.SalaryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class SalaryReadServiceImpl implements SalaryReadService {
@@ -45,6 +47,12 @@ public class SalaryReadServiceImpl implements SalaryReadService {
     @Override
     public List<Salary> fetchBottomNSalaries(int n) {
         return salaryRepository.fetchBottomNSalaries(n);
+    }
+
+    @Override
+    @Async
+    public CompletableFuture<List<Salary>> getAllSalariesAsync() {
+        return CompletableFuture.completedFuture(salaryRepository.findAll());
     }
 
 }

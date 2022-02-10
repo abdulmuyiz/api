@@ -12,21 +12,24 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping(path = "api/v1/educationDetails")
 public class EducationDetailsController {
     private final EducationDetailsReadService educationDetailsReadService;
     private final EducationDetailsWriteService educationDetailsWriteService;
-    private final EducationDetailsValidationService educationDetailsValidationService = new EducationDetailsValidationServiceImpl();
+    private final EducationDetailsValidationService educationDetailsValidationService;
 
     @Autowired
-    public EducationDetailsController(EducationDetailsReadService educationDetailsReadService, EducationDetailsWriteService educationDetailsWriteService) {
+    public EducationDetailsController(EducationDetailsReadService educationDetailsReadService, EducationDetailsWriteService educationDetailsWriteService, EducationDetailsValidationService educationDetailsValidationService) {
         this.educationDetailsReadService = educationDetailsReadService;
         this.educationDetailsWriteService = educationDetailsWriteService;
+        this.educationDetailsValidationService = educationDetailsValidationService;
     }
 
     @GetMapping
@@ -41,7 +44,7 @@ public class EducationDetailsController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> postEducationDetails(@RequestBody EducationDetails educationDetails) throws ApiRequestException {
+    public ResponseEntity<String> postEducationDetails(@RequestBody EducationDetails educationDetails) throws ApiRequestException {
         if(educationDetailsValidationService.validateEducationDetails(educationDetails)){
             educationDetailsWriteService.saveEducationDetails(educationDetails);
             return ResponseEntity.ok("Education Details Saved Successfully");
@@ -50,7 +53,7 @@ public class EducationDetailsController {
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<Object> putEducationDetails(@RequestBody EducationDetails educationDetails, @PathVariable("id") int id){
+    public ResponseEntity<String> putEducationDetails(@RequestBody EducationDetails educationDetails, @PathVariable("id") int id){
         if(educationDetailsValidationService.validateEducationDetails(educationDetails)) {
             educationDetailsWriteService.updateEducationDetails(educationDetails, id);
             return ResponseEntity.ok("Education Details Updated Successfully");
@@ -58,4 +61,9 @@ public class EducationDetailsController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
+    @GetMapping(path = "/completableFuture")
+    @Async
+    public CompletableFuture<ResponseEntity> getAllEducationDetailsAsync(){
+        return educationDetailsReadService.getAllEducationDetailsAsync().thenApply(ResponseEntity::ok);
+    }
 }

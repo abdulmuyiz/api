@@ -13,7 +13,6 @@ import java.util.Optional;
 
 @Service
 public class QualificationTypesWriteServiceImpl implements QualificationTypesWriteService {
-    Date date = new Date();
     private final QualificationTypesRepository qualificationTypesRepository;
 
     @Autowired
@@ -23,9 +22,6 @@ public class QualificationTypesWriteServiceImpl implements QualificationTypesWri
 
     @Override
     public QualificationTypes saveQualificationType(QualificationTypes qualificationTypes) {
-        Timestamp timestamp = new Timestamp(date.getTime());
-        qualificationTypes.setCreated(timestamp);
-        qualificationTypes.setUpdated(timestamp);
         qualificationTypesRepository.save(qualificationTypes);
         return qualificationTypes;
     }
@@ -33,16 +29,13 @@ public class QualificationTypesWriteServiceImpl implements QualificationTypesWri
     @Override
     @CachePut(value = "qualificationTypes",key = "#id")
     public QualificationTypes updateQualificationTpe(QualificationTypes qualificationTypes, int id) {
-        Timestamp timestamp = new Timestamp(date.getTime());
         Optional<QualificationTypes> qt = qualificationTypesRepository.findById(id);
         if(qt.isPresent()){
-            QualificationTypes qualificationTypes1 = qt.get();
-            qualificationTypes.setCreated(qualificationTypes1.getCreated());
-            qualificationTypes.setId(id);
-            qualificationTypes.setUpdated(timestamp);
-            qualificationTypes1 = qualificationTypes;
-            qualificationTypesRepository.save(qualificationTypes1);
-            return qualificationTypes;
+            QualificationTypes updateQualificationTypes = qt.get();
+            updateQualificationTypes.setType(qualificationTypes.getType());
+            updateQualificationTypes.setName(qualificationTypes.getName());
+            qualificationTypesRepository.save(updateQualificationTypes);
+            return updateQualificationTypes;
         }else{
             throw new ResourseNotFoundException("Qualification Types","ID",id);
         }

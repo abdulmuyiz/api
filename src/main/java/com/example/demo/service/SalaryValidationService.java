@@ -4,4 +4,5 @@ import com.example.demo.model.Salary;
 
 public interface SalaryValidationService {
     boolean validateSalary(Salary salary);
+    int checkedPreviousSalary(Salary salary);
 }

@@ -5,9 +5,11 @@ import com.example.demo.exception.ResourseNotFoundException;
 import com.example.demo.model.Employee;
 import com.example.demo.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class EmployeeReadServiceImpl implements EmployeeReadService {
@@ -36,6 +38,12 @@ public class EmployeeReadServiceImpl implements EmployeeReadService {
     @Override
     public Integer numberOfEmpInDep(long id){
         return employeeRepository.numberOfEmployeesInDep(id);
+    }
+
+    @Override
+    @Async
+    public CompletableFuture<List<Employee>> getAllEmployeesAsync() {
+        return CompletableFuture.completedFuture(employeeRepository.findAll());
     }
 
 }
