@@ -23,9 +23,17 @@ public class SalaryValidationServiceImpl implements SalaryValidationService {
     @Override
     public boolean validateSalary(Salary salary) {
         List<String> errors = new ArrayList<>();
+        if(salary.getEmployee() == null){
+            errors.add("Employee");
+        }
+        if(salary.getBegin_date() == null){
+            errors.add("Begin Date");
+        }
         if(salary.getAmount() < 0){
             errors.add("Amount");
-            throw new ValidationException(errors, "Invalid amount");
+        }
+        if(!errors.isEmpty()){
+            throw new ValidationException(errors, "Invalid Fields");
         }
         return true;
     }

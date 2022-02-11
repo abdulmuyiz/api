@@ -2,11 +2,10 @@ package com.example.demo.controller;
 
 import com.example.demo.model.QualificationTypes;
 import com.example.demo.service.QualificationTypesReadService;
+import com.example.demo.service.QualificationTypesValidationService;
 import com.example.demo.service.QualificationTypesWriteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.*;
@@ -19,11 +18,13 @@ import java.util.concurrent.CompletableFuture;
 public class QualificationTypesController {
     private final QualificationTypesReadService qualificationTypesReadService;
     private final QualificationTypesWriteService qualificationTypesWriteService;
+    private final QualificationTypesValidationService qualificationTypesValidationService;
 
     @Autowired
-    public QualificationTypesController(QualificationTypesReadService qualificationTypesReadService, QualificationTypesWriteService qualificationTypesWriteService) {
+    public QualificationTypesController(QualificationTypesReadService qualificationTypesReadService, QualificationTypesWriteService qualificationTypesWriteService, QualificationTypesValidationService qualificationTypesValidationService) {
         this.qualificationTypesReadService = qualificationTypesReadService;
         this.qualificationTypesWriteService = qualificationTypesWriteService;
+        this.qualificationTypesValidationService = qualificationTypesValidationService;
     }
 
     @GetMapping
@@ -39,12 +40,14 @@ public class QualificationTypesController {
 
     @PostMapping
     public ResponseEntity<String> postQualificationTypes(@RequestBody QualificationTypes qualificationTypes){
-        qualificationTypesWriteService.saveQualificationType(qualificationTypes);
-        return ResponseEntity.ok("Qualification Types saved Successfully");
+        qualificationTypesValidationService.validateQualificationType(qualificationTypes);
+        QualificationTypes q = qualificationTypesWriteService.saveQualificationType(qualificationTypes);
+        return ResponseEntity.ok("Qualification Types saved Successfully of id " + q.getId());
     }
 
     @PutMapping(path = "/{id}")
     public ResponseEntity<String> putQualificationType(@RequestBody QualificationTypes qualificationTypes,@PathVariable("id") int id){
+        qualificationTypesValidationService.validateQualificationType(qualificationTypes);
         qualificationTypesWriteService.updateQualificationTpe(qualificationTypes,id);
         return ResponseEntity.ok("Qualification Types updated Successfully");
     }

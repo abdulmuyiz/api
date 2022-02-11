@@ -13,12 +13,20 @@ public class EducationDetailsValidationServiceImpl implements EducationDetailsVa
     @Override
     public boolean validateEducationDetails(EducationDetails educationDetails) {
         errors = new ArrayList<>();
+        if(educationDetails.getQualificationTypes() == null){
+            errors.add("Qualification Types");
+        }
+        if(educationDetails.getEmployee() == null){
+            errors.add("Employee");
+        }
         if((educationDetails.getSourceType() == EducationDetails.SourceType.CGPA &&
                     (educationDetails.getScore()>10 || educationDetails.getScore()<0)) ||
                     (educationDetails.getSourceType() == EducationDetails.SourceType.Percentage &&
                     (educationDetails.getScore()>100 || educationDetails.getScore()<0))){
-                errors.add("source");
-                throw new ValidationException(errors, "INVALID Score for type");
+                errors.add("Score for type");
+        }
+        if(!errors.isEmpty()){
+            throw new ValidationException(errors, "INVALID Field");
         }
         return true;
 

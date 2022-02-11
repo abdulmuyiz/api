@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.exception.ApiRequestException;
 import com.example.demo.model.Office;
 import com.example.demo.service.OfficeReadService;
+import com.example.demo.service.OfficeValidationService;
 import com.example.demo.service.OfficeWriteService;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +19,12 @@ import java.util.concurrent.CompletableFuture;
 public class OfficeController {
     private final OfficeReadService officeReadService;
     private final OfficeWriteService officeWriteService;
+    private final OfficeValidationService officeValidationService;
 
-    public OfficeController(OfficeReadService officeReadService, OfficeWriteService officeWriteService) {
+    public OfficeController(OfficeReadService officeReadService, OfficeWriteService officeWriteService, OfficeValidationService officeValidationService) {
         this.officeReadService = officeReadService;
         this.officeWriteService = officeWriteService;
+        this.officeValidationService = officeValidationService;
     }
 
     @GetMapping
@@ -37,8 +40,9 @@ public class OfficeController {
 
     @PostMapping
     public ResponseEntity<String> postOffice(@RequestBody Office office){
-        officeWriteService.saveOffice(office);
-        return ResponseEntity.ok("Office Saved Successfully");
+        officeValidationService.validateOffice(office);
+        Office o = officeWriteService.saveOffice(office);
+        return ResponseEntity.ok("Office Saved Successfully of id "+ o.getId());
     }
 
     @GetMapping(path = "/completableFuture")

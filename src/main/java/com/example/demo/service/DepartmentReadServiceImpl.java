@@ -27,6 +27,7 @@ public class DepartmentReadServiceImpl implements DepartmentReadService {
     }
 
     @Override
+    @Cacheable(key = "#id", value = "departments")
     public Department getDepartment(long id) {
         return departmentRepository.findById(id).orElseThrow(() -> new ResourseNotFoundException("Department","id",id));
     }

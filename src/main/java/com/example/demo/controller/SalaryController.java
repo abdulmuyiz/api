@@ -67,8 +67,8 @@ public class SalaryController {
             int id = salaryValidationService.checkedPreviousSalary(salary);
             if(id>0)
                 salaryWriteService.deleteSalary(id);
-            salaryWriteService.saveSalary(salary);
-            return ResponseEntity.ok("Salary saved successfully");
+            Salary s = salaryWriteService.saveSalary(salary);
+            return ResponseEntity.ok("Salary saved successfully of id " + s.getId());
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }

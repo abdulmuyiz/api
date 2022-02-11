@@ -46,8 +46,8 @@ public class EducationDetailsController {
     @PostMapping
     public ResponseEntity<String> postEducationDetails(@RequestBody EducationDetails educationDetails) throws ApiRequestException {
         if(educationDetailsValidationService.validateEducationDetails(educationDetails)){
-            educationDetailsWriteService.saveEducationDetails(educationDetails);
-            return ResponseEntity.ok("Education Details Saved Successfully");
+            EducationDetails e =educationDetailsWriteService.saveEducationDetails(educationDetails);
+            return ResponseEntity.ok("Education Details Saved Successfully of id " + e.getId());
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }

@@ -27,6 +27,12 @@ public class EmployeeValidationServiceImpl implements EmployeeValidationService 
     @Override
     public boolean validateEmployee(Employee employee) {
             errors = new ArrayList<>();
+            if(employee.getName() == null){
+                errors.add("Name");
+            }
+            if(employee.getOffice() == null){
+                errors.add("Office");
+            }
             if(employee.getAge() < 18){
                 errors.add("age");
             }

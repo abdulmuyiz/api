@@ -53,8 +53,8 @@ public class EmployeeController {
     @PostMapping
     public ResponseEntity<String> postEmployee(@RequestBody Employee employee) throws ApiRequestException {
         if (employeeValidationService.validateEmployee(employee)){
-            employeeWriteService.saveEmployee(employee);
-            return ResponseEntity.ok("Employee Saved Successfully");
+            Employee e = employeeWriteService.saveEmployee(employee);
+            return ResponseEntity.ok("Employee Saved Successfully of id "+ e.getId());
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
